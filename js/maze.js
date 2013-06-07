@@ -1,15 +1,17 @@
 var VirtualMaze = VirtualMaze || {};
 
-VirtualMaze.Maze = function(context) {
+VirtualMaze.Maze = function() {
 
     this.WALL_THRESHOLD = 100;
 
-    this.context = context;
+    this.canvas = document.getElementById("wall_canvas");
+    this.context = this.canvas.getContext("2d");
 
     /**
      * @see http://en.wikipedia.org/wiki/Grayscale#Converting_color_to_grayscale
      */
     this._convertToGray = function() {
+
         var imageData = this.context.getImageData(0, 0, 800, 600);
 
         var pixels = imageData.data;
@@ -51,6 +53,10 @@ VirtualMaze.Maze = function(context) {
         this.context.putImageData(imageData, 0, 0);
 
         return imageData;
+    }
+
+    this.draw = function(context) {
+        context.putImageData(this.context.getImageData(0, 0, 800, 600), 0, 0);
     }
 
     this.updateWallThreshold = function(newThreshold, originalContext) {
