@@ -1,8 +1,14 @@
+var VirtualMaze = VirtualMaze || {};
+
 // To solve some compatibility issues
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 window.URL = window.URL || window.webkitURL;
 
+VirtualMaze.maze = null;
+VirtualMaze.originalSnapshotContext = document.getElementById("original_snapshot").getContext('2d');
+
 var video = document.getElementById("video");
+
 var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
 
@@ -25,8 +31,12 @@ document.getElementById("snap_button").addEventListener("click", function(e) {
     e.preventDefault();
     if (cameraStream) {
         context.drawImage(video, 0, 0, 800, 600);
+        VirtualMaze.originalSnapshotContext.drawImage(video, 0, 0, 800, 600);
         video.parentNode.style.display = "none";
         canvas.parentNode.style.display = "block";
+
+        VirtualMaze.maze = new Maze(context);
+        VirtualMaze.maze.buildWalls();
     }
 }, true);
 

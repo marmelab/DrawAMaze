@@ -5,15 +5,28 @@
     <title>Draw your maze!</title>
 </head>
 <body>
-    <h1>Draw your maze!</h1>
-    <div id="snapStep">
-        <video autoplay src="#" id="video" width="800" height="600"></video>
-        <button class="btn btn-primary" id="snap_button">Snap it!</button>
-    </div>
-    <div id="gameStep" style="display: none;">
-        <canvas id="canvas" width="800" height="600"></canvas>
-        <button class="btn btn-primary" id="new_maze">New maze</button>
-    </div>
+    <aside>
+        <h3>Parameters</h3>
+        <p>
+            <label>Wall threshold</label>
+            <input type="range" min="0" max="255" range="1" value="100" id="wall_threshold" />
+            <small id="wall_threshold_value">100</small>
+        </p>
+    </aside>
+    <section>
+        <h1>Draw your maze!</h1>
+        <div id="snapStep">
+            <video autoplay src="#" id="video" width="800" height="600"></video>
+            <button class="btn btn-primary" id="snap_button">Snap it!</button>
+        </div>
+        <div id="gameStep" style="display: none;">
+            <canvas id="canvas" width="800" height="600"></canvas>
+            <canvas id="original_snapshot" width="800" height="600" style="display: none;"></canvas>
+            <button class="btn btn-primary" id="new_maze">New maze</button>
+        </div>
+    </section>
     <script src="js/camera.js"></script>
+    <script src="js/maze.js"></script>
+    <script src="js/parameters.js"></script>
 </body>
 </html>
