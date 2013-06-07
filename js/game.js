@@ -97,16 +97,23 @@ VirtualMaze.Game = function() {
         var me = this;
         document.getElementById("wall_threshold").addEventListener("change", function(e) {
             if (me.maze) {
-                me.maze.updateWallThreshold(this.value, me.originalContext);
+                me.maze.updateWallThreshold(this.value * 1, me.originalContext);
                 document.getElementById("wall_threshold_value").innerText = this.value;
             }
         }, true);
 
         document.getElementById("player_radius").addEventListener("change", function(e) {
             if (me.player) {
-                me.player.radius = this.value;
+                me.player.radius = this.value * 1;
                 me.player.draw();
                 document.getElementById("player_radius_value").innerText = this.value;
+            }
+        }, true);
+
+        document.getElementById("player_speed").addEventListener("change", function(e) {
+            if (me.player) {
+                me.player.SPEED = this.value * 1;
+                document.getElementById("player_speed_value").innerText = this.value;
             }
         }, true);
 
