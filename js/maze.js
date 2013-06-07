@@ -1,4 +1,6 @@
-var Maze = function(context) {
+var VirtualMaze = VirtualMaze || {};
+
+VirtualMaze.Maze = function(context) {
 
     this.WALL_THRESHOLD = 100;
 
@@ -51,9 +53,9 @@ var Maze = function(context) {
         return imageData;
     }
 
-    this.updateWallThreshold = function(newThreshold) {
+    this.updateWallThreshold = function(newThreshold, originalContext) {
         this.WALL_THRESHOLD = newThreshold;
-        this.context.putImageData(VirtualMaze.originalSnapshotContext.getImageData(0, 0, 800, 600), 0, 0);
+        this.context.putImageData(originalContext.getImageData(0, 0, 800, 600), 0, 0);
         this.buildWalls();
     }
 

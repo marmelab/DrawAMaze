@@ -1,46 +1,30 @@
-var VirtualMaze = VirtualMaze || {};
-
 // To solve some compatibility issues
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 window.URL = window.URL || window.webkitURL;
 
-VirtualMaze.maze = null;
-VirtualMaze.originalSnapshotContext = document.getElementById("original_snapshot").getContext('2d');
+var VirtualMaze = VirtualMaze || {};
 
-var video = document.getElementById("video");
+VirtualMaze.WebcamStream = function() {
 
-var canvas = document.getElementById("canvas");
-var context = canvas.getContext("2d");
+    var me = this;
 
-/** Display live stream from webcam **/
+    this.userMedia = null
+    this.cameraStream = null
+    this.video = document.getElementById("video");
 
-var cameraStream = null
+    this.start = function() {
+        this.userMedia = navigator.getUserMedia({
+            video: true
+        }, function(stream) {
+            me.video.src = window.URL.createObjectURL(stream);
+            me.cameraStream = stream;
+        }, function(e) {
+            console.error("Unable to retrieve camera stream: ", e);
+        });
+    };
 
-function onCameraFail(e) {
-    console.error("Unable to retrieve camera stream: ", e);
-}
-
-function onCameraSuccess(stream) {
-    video.src = window.URL.createObjectURL(stream);
-    cameraStream = stream;
-}
-
-navigator.getUserMedia({ video: true }, onCameraSuccess, onCameraFail);
-
-document.getElementById("snap_button").addEventListener("click", function(e) {
-    e.preventDefault();
-    if (cameraStream) {
-        context.drawImage(video, 0, 0, 800, 600);
-        VirtualMaze.originalSnapshotContext.drawImage(video, 0, 0, 800, 600);
-        video.parentNode.style.display = "none";
-        canvas.parentNode.style.display = "block";
-
-        VirtualMaze.maze = new Maze(context);
-        VirtualMaze.maze.buildWalls();
+    this.takeSnapshot = function(originalContext, context) {
+        context.drawImage(this.video, 0, 0, 800, 600);
+        originalContext.drawImage(this.video, 0, 0, 800, 600);
     }
-}, true);
-
-document.getElementById("new_maze").addEventListener("click", function(e) {
-    video.parentNode.style.display = "block";
-    canvas.parentNode.style.display = "none";
-}, true);
+}
