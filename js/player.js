@@ -24,18 +24,30 @@ VirtualMaze.Player = function(x, y, radius) {
         switch(direction) {
             case "right":
                 this.x += this.SPEED;
+                if (this.x + this.radius > 800) {
+                    this.x = 800 - this.radius;
+                }
                 break;
 
             case "left":
                 this.x -= this.SPEED;
+                if (this.x < this.radius) {
+                    this.x = this.radius;
+                }
                 break;
 
             case "up":
                 this.y -= this.SPEED;
+                if (this.y - this.radius < 0) {
+                    this.y = this.radius;
+                }
                 break;
 
             case "down":
                 this.y += this.SPEED;
+                if (this.y + this.radius > 600) {
+                    this.y = 600 - this.radius;
+                }
                 break;
         }
     }
