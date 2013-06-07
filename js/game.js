@@ -135,24 +135,25 @@ VirtualMaze.Game = function() {
     }
 
     this.update = function() {
+        var imageData = this.context.getImageData(0, 0, 800, 600).data;
         for(var key in this.pressedKeys) {
             if (this.pressedKeys[key] == true) {
                 key = key * 1;
                 switch(key) {
                     case KEY_LEFT:
-                        this.player.move("left");
+                        this.player.move("left", imageData);
                         break;
 
                     case KEY_RIGHT:
-                        this.player.move("right");
+                        this.player.move("right", imageData);
                         break;
 
                     case KEY_DOWN:
-                        this.player.move("down");
+                        this.player.move("down", imageData);
                         break;
 
                     case KEY_UP:
-                        this.player.move("up");
+                        this.player.move("up", imageData);
                         break;
                 }
             }
