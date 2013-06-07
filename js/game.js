@@ -22,6 +22,8 @@ VirtualMaze.Game = function() {
     this.snapButton = null;
     this.parametersHandlersSet = false;
 
+    this.pressedKeys = [];
+
     this.webcamStream = new VirtualMaze.WebcamStream();
 
     this.snapLevel = function() {
@@ -50,10 +52,13 @@ VirtualMaze.Game = function() {
         me.player = new VirtualMaze.Player(200, 200, 50);
 
         this.addParametersHandlers();
+        this.addPlayerHandlers();
+
         this.draw();
     }
 
     this.draw = function() {
+        this.update();
         this.maze.draw(this.context);
         this.player.draw(this.context);
 
@@ -106,6 +111,45 @@ VirtualMaze.Game = function() {
         }, true);
 
         this.parametersHandlersSet = true;
+    }
+
+    this.addPlayerHandlers = function() {
+        var me = this;
+
+        document.addEventListener("keydown", function(e) {
+            e.preventDefault();
+            me.pressedKeys[e.keyCode] = true;
+        });
+
+        document.addEventListener("keyup", function(e) {
+            e.preventDefault();
+            delete me.pressedKeys[e.keyCode];
+        });
+    }
+
+    this.update = function() {
+        for(var key in this.pressedKeys) {
+            if (this.pressedKeys[key] == true) {
+                key = key * 1;
+                switch(key) {
+                    case KEY_LEFT:
+                        this.player.move("left");
+                        break;
+
+                    case KEY_RIGHT:
+                        this.player.move("right");
+                        break;
+
+                    case KEY_DOWN:
+                        this.player.move("down");
+                        break;
+
+                    case KEY_UP:
+                        this.player.move("up");
+                        break;
+                }
+            }
+        }
     }
 
     this.snapLevel();

@@ -2,6 +2,8 @@ var VirtualMaze = VirtualMaze || {};
 
 VirtualMaze.Player = function(x, y, radius) {
 
+    this.SPEED = 10;
+
     this.x = x;
     this.y = y;
     this.radius = radius;
@@ -16,5 +18,25 @@ VirtualMaze.Player = function(x, y, radius) {
         context.closePath();
         context.fillStyle = "red";
         context.fill();
+    }
+
+    this.move = function(direction) {
+        switch(direction) {
+            case "right":
+                this.x += this.SPEED;
+                break;
+
+            case "left":
+                this.x -= this.SPEED;
+                break;
+
+            case "up":
+                this.y -= this.SPEED;
+                break;
+
+            case "down":
+                this.y += this.SPEED;
+                break;
+        }
     }
 }
